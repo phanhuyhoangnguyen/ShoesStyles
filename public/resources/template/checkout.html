@@ -1,0 +1,177 @@
+<!--Template: checkout page -->
+<div class="container pt-2 w-75" id="body-container">
+    <h1 class="text-center py-3 text-uppercase">Check Out</h1>
+    <h2>Delivery & Payment Details</h2>
+    <div class="row">
+        <div class="col-lg-6">
+            <form class="needs-validation" name="deliveryForm" data-ng-submit="createOrder()" novalidate>
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="fname">First Name</label>
+                        <input type="text" class="form-control" id="fname" name="fname" data-ng-model="fname" letter ng-class="{'is-invalid':deliveryForm.fname.$touched && deliveryForm.fname.$error.letter}"
+                        />
+                        <small ng-show="deliveryForm.fname.$touched && deliveryForm.fname.$error.letter" id="firtnameHelp" class="form-text text-danger">First Name is required. Name must be letters only</small>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="lname">Last Name</label>
+                        <input type="text" class="form-control" id="lname" name="lname" data-ng-model="lname" letter ng-class="{'is-invalid':deliveryForm.lname.$touched && deliveryForm.lname.$error.letter}"
+                        />
+                        <small ng-show="deliveryForm.lname.$touched && deliveryForm.lname.$error.letter" id="lastnameHelp" class="form-text text-danger">Last Name is required. Name must be letters only</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" data-ng-model="email" emailvalidate ng-class="{'is-invalid':deliveryForm.email.$touched && deliveryForm.email.$error.emailvalidate}"
+                        />
+                        <small ng-show="deliveryForm.email.$touched && deliveryForm.email.$error.emailvalidate" id="emailHelp" class="form-text text-danger">Please Input Valid Email</small>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="mobile">Mobile</label>
+                        <input class="form-control" type="text" id="mobile" name="mobile" data-ng-model="mobile" mobile ng-class="{'is-invalid':deliveryForm.mobile.$touched && deliveryForm.mobile.$error.mobile}"
+                        />
+                        <small ng-show="deliveryForm.mobile.$touched && deliveryForm.mobile.$error.mobile" id="mobileHelp" class="form-text text-danger">Must start with 04 and 10 digits format</small>
+                    </div>
+                </div>
+                <div class="form-group" ng-init="gender = 'male'">
+                    <label>Gender</label>
+                    <br>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="gender" id="male" ng-model="gender" value="male" />
+                        <label for="male" class="form-check-label">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="gender" id="female" ng-model="gender" value="female" />
+                        <label for="female" class="form-check-label">Female</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="address">Delivery Address</label>
+                        <input type="text" class="form-control" id="address" name="address" data-ng-model="address" required ng-class="{'is-invalid':deliveryForm.address.$touched && deliveryForm.address.$error.required}"
+                        />
+                        <small ng-show="deliveryForm.address.$touched && deliveryForm.address.$error.required" id="addressHelp" class="form-text text-danger">Please Input Delivery Address</small>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="suburb">Delivery Suburb</label>
+                        <input type="text" class="form-control" id="suburb" name="suburb" data-ng-model="suburb" required ng-class="{'is-invalid':deliveryForm.suburb.$touched && deliveryForm.suburb.$error.required}"
+                        />
+                        <small ng-show="deliveryForm.suburb.$touched && deliveryForm.suburb.$error.required" id="suburbHelp" class="form-text text-danger">Please Input Delivery Suburb</small>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="postCode">Post Code</label>
+                        <input class="form-control" type="text" id="postCode" name="postCode" data-ng-model="postCode" postcode ng-class="{'is-invalid':deliveryForm.postCode.$touched && deliveryForm.postCode.$error.postcode}"
+                        />
+                        <small ng-show="deliveryForm.postCode.$touched && deliveryForm.postCode.$error.postcode" id="postCodeHelp" class="form-text text-danger">Must be 4 digits format</small>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label>State</label>
+                        <select class="form-control" ng-model="selectedState">
+                            <option value="">Select Your State</option>
+                            <option ng-repeat="state in stateAvailable" value="{{state}}">{{state}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="creditcardHolderName">Mastercard Name
+                            <i class="far fa-user"></i>
+                        </label>
+                        <input type="text" class="form-control" id="creditcardHolderName" name="creditcardHolderName" data-ng-model="creditcardHolderName"
+                            letter ng-class="{'is-invalid':deliveryForm.creditcardHolderName.$touched && deliveryForm.creditcardHolderName.$error.letter}"
+                        />
+                        <!-- using $untouch here for checking empty-->
+                        <small ng-show="deliveryForm.creditcardHolderName.$touched && deliveryForm.creditcardHolderName.$error.letter" id="mastercardnameHelp"
+                            class="form-text text-danger">Field is required. Name must be letters only</small>
+                    </div>
+                    <div class="form-group col-md-6 col-lg-12">
+                        <label for="creditcardNo">Mastercard Number
+                            <i class="fab fa-cc-mastercard"></i>
+                        </label>
+                        <input class="form-control" type="text" id="creditcardNo" name="creditcardNo" data-ng-model="creditcardNo" ccnumber ng-class="{'is-invalid':deliveryForm.creditcardNo.$touched && deliveryForm.creditcardNo.$error.ccnumber}"
+                        />
+                        <small id="creditCardHelp" data-ng-hide="deliveryForm.creditcardNo.$touched && deliveryForm.creditcardNo.$error.ccnumber"
+                            class="form-text text-muted">Your credit card info is kept secured.</small>
+                        <small ng-show="deliveryForm.creditcardNo.$touched && deliveryForm.creditcardNo.$error.ccnumber" id="mastercardnumberHelp"
+                            class="form-text text-danger">Please Input Valid Card Number</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-row">
+                            <label class="col-sm-12">Expiration
+                                <i class="far fa-calendar-alt"></i>
+                            </label>
+                            <div class="form-group col">
+
+                                <input class="form-control" type="number" id="ccexpmonth" name="ccexpmonth" min="1" data-ng-model="ccexpmonth" month ng-class="{'is-invalid':deliveryForm.ccexpmonth.$touched && deliveryForm.ccexpmonth.$error.month}"
+                                />
+                                <small ng-show="deliveryForm.ccexpmonth.$touched && deliveryForm.ccexpmonth.$error.month" id="ccexpmonthHelp" class="form-text text-danger">Please Input Valid Card Month</small>
+                            </div>
+                            <div class="form-group col">
+                                <input class="form-control" type="number" id="ccexpyear" name="ccexpyear" min="1" data-ng-model="ccexpyear" year ng-class="{'is-invalid':deliveryForm.ccexpyear.$touched && deliveryForm.ccexpyear.$error.year}"
+                                />
+                                <small ng-show="deliveryForm.ccexpyear.$touched && deliveryForm.ccexpyear.$error.year" id="ccexpyearHelp" class="form-text text-danger">Please Input Valid Year</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label for="ccvnumber">CVV
+                                <i class="far fa-credit-card icon-small"></i>
+                            </label>
+                            <input class="form-control" type="text" id="ccvnumber" name="ccvnumber" data-ng-model="ccvnumber" ccvnumber ng-class="{'is-invalid':deliveryForm.ccvnumber.$touched && deliveryForm.ccvnumber.$error.ccvnumber}"
+                            />
+                            <small ng-show="deliveryForm.ccvnumber.$touched && deliveryForm.ccvnumber.$error.ccvnumber" id="ccvHelp" class="form-text text-danger">Please Input Valid CCV Number</small>
+
+                        </div>
+                    </div>
+                </div>
+
+                <span class="text-info clickable" data-toggle="collapse" data-target="#termsAndCondition">*Terms and Condition</span>
+                <div id="termsAndCondition" class="collapse form-group">
+                    Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample
+                    Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
+                    Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample
+                    Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
+                    Sample Text
+                </div>
+
+                <div class="pt-2">
+                    <input class="btn btn-warning text-white" type="submit" data-ng-disabled="deliveryForm.$invalid" value="FINISH" />
+                    <input class="btn btn-danger" type="Reset" value="CLEAR" />
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <div class="row">
+                <!-- Aside section with company info -->
+                <aside class="col-md-6 col-lg-12">
+                    <address>
+                        <p>
+                            <strong>WatchStyle Shop</strong>
+                            <br/> Visit us at:
+                            <br/> Room 301, Level 3, 125 Bourke St. Melbourne 3000.
+                            <br/> (03) 5317 8198
+                            <br/>
+                            <a href="mailto:hoang.nguyen.swi@gmail.com">info@shoesstyle.com.au</a>
+                            <br/>
+                        </p>
+                        <p>
+                            <strong>Trading Hours</strong>
+                            Monday - Friday: 9am - 7pm
+                            <br/> Saturday - Sunday: 10am - 5pm
+                        </p>
+                    </address>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>

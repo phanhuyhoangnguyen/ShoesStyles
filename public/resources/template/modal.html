@@ -1,0 +1,18 @@
+<!--Template: modal -->
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{modal.title}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <p>{{modal.body}}</p>
+    <form ng-show="modal.inputBoxEnabled" name="reportReviewForm">
+        <div class="form-group">
+            <label for="report-text" class="col-form-label">Report:</label>
+            <textarea data-ng-model="message" class="form-control" id="report-text" required></textarea>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning text-light" ng-show="modal.okButtonEnabled" type="button" data-ng-disabled="modal.inputBoxEnabled && reportReviewForm.$invalid"
+        ng-click="ok()">{{modal.action}}</button>
+    <button class="btn btn-dark" type="button" ng-show="modal.cancelButtonEnabled" ng-click="cancel()">Cancel</button>
+</div>

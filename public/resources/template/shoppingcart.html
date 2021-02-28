@@ -1,0 +1,80 @@
+<!--Template: view shopping cart page -->
+<div id="body-container" class="container">
+    <h1>Shopping Cart</h1>
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="home.html">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+        </ol>
+    </nav>
+
+    <div ng-hide="cart.items.length != 0" class="clearfix">
+        <p>Your Shopping Cart is empty!</p>
+        <a href="#page/newArrivals" role="button" class="btn btn-warning text-light float-right">Go Shopping!</a>
+    </div>
+    <div ng-show="cart.items.length != 0">
+        <div ng-repeat="item in cart.items track by $index">
+            <div class="d-flex justify-content-between">
+                <span>
+                    <strong>{{item.name}}</strong>
+                </span>
+                <a href ng-click="removeItemInCart($index)">
+                    <i class="far fa-trash-alt icon-medium"></i>
+                </a>
+            </div>
+            <p class="mt-3">
+                {{item.type}}
+            </p>
+            <p>
+                <span>${{item.price}}</span>
+            </p>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group row">
+                        <label for="colour" class="col-sm-3 col-form-label">Colour</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="item.colourSelected" required>
+                                <option value="">Select Your Colour</option>
+                                <option ng-repeat="(key,value) in item.colour" class="text-capitalize" value="{{key}}">{{key}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Size</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="item.sizeSelected" required>
+                                <option value="">Select Your Size</option>
+                                <option ng-repeat="(key,value) in item.size" value="{{key}}">{{key}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group row">
+                        <label for="quanity" class="col-sm-3 col-form-label">Quanity</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="quanity" name="quanity" placeholder="Quanity" data-ng-model="item.quanitySelected"
+                                min="1" max="{{item.instock}}" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 text-right">
+                    Price: ${{item.price * item.quanitySelected}}
+                </div>
+            </div>
+            <hr class="my-4">
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>
+                <strong>Total Order Price: ${{totalPriceInCart()}}</strong>
+            </span>
+            <button role="button" class="btn btn-warning" ng-click="checkLogged()">Continue
+                <i class="fas fa-chevron-right icon-small"></i>
+            </button>
+        </div>
+    </div>
+</div>

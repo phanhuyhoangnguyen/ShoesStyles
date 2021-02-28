@@ -1,0 +1,212 @@
+<!--Main Page-->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="myApp">
+
+<head>
+    <title>ShoesStyle | Australian's No 1 for Authentic Shoes</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Web Descripiton" />
+    <meta name="keywords" content="Search Keyword" />
+    <meta name="author" content="Phan Huy Hoang Nguyen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap Css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"/>
+
+    <!-- Fontawsome Plugins -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous"/>
+
+    <link href="css/myCss.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+                <script src="js/html5shiv.js"></script>
+                <script src="js/respond.min.js"></script>
+                <![endif]-->
+</head>
+
+<body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-light navbar-expand-md">
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler order-1 order-lg-1" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+                aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Brand -->
+            <a class="navbar-brand mr-lg-5 mr-0 order-2 order-lg-2" href="#">
+                <img src="resources/images/logo.png" class="img-responsive" alt="logo">
+            </a>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse order-4 order-lg-3 order-md-3" id="navbarToggler">
+                <ul class="navbar-nav mx-0 mx-lg-5 px-0 px-lg-5 justify-content-between" style="flex-grow: 1;">
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'main'}">
+                        <a class="nav-link" href="#/">Home</a>
+                    </li>
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'newArrivals'}">
+                        <a class="nav-link" href="#page/newArrivals">New Arrivals</a>
+                    </li>
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'menShoes'}">
+                        <a class="nav-link" href="#page/menShoes">Men</a>
+                    </li>
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'womenShoes'}">
+                        <a class="nav-link" href="#page/womenShoes">Women</a>
+                    </li>
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'nikeShoes'}">
+                        <a class="nav-link" href="#page/nikeShoes">Nike</a>
+                    </li>
+                    <li class="nav-item" data-ng-class="{' active-menu-item': currentPageLocation == 'adidasShoes'}">
+                        <a class="nav-link" href="#page/adidasShoes">Adidas</a>
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-lg-end mr-lg-4 mr-md-4 mr-0">
+                    <a data-ng-hide="firebaseUser" href="#login">
+                        <i class="fas fa-user icon-medium d-none d-md-block"></i>
+                        <span class="d-block d-md-none">Sign In</span>
+                    </a>
+                    <a href data-ng-show="firebaseUser" ng-click="signOut()">
+                        <i class="fas fa-sign-out-alt icon-medium d-none d-md-block" alt="signout"></i>
+                        <span class="d-block d-md-none">Sign out</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row mr-lg-4 mr-0 order-3 order-lg-4 order-md-4">
+                <div class="col">
+                    <a href data-toggle="collapse" data-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse">
+                        <i class="fas fa-search icon-medium"></i>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#shoppingcart">
+                        <i class="fas fa-shopping-cart icon-medium position-relative text-right">
+                            <span ng-show="cart.items.length != 0" class="badge badge-danger position-absolute pb-1">{{cart.items.length}}</span>
+                            <span class="sr-only">shopping items added</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div id="searchCollapse" class="collapse">
+            <div class=" w-50 mx-auto">
+                <form class="form-inline justify-content-center py-2">
+                    <div class="input-group w-100 px-4">
+                        <input class="form-control" type="search" data-ng-model="textSearch" placeholder="Search" aria-label="Search">
+                        <div class="align-items-center">
+                            <span class="btn btn-outline-danger" data-target="#searchCollapse" data-toggle="collapse" ng-click="clearSearch(this)">
+                                <i class="fas fa-times icon-medium"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <div id="searchResult" class="d-block px-4">
+                    <a class="d-block" ng-repeat="shoes in productDataFullArray | lowercase | textFilter: textSearch" data-target="#searchCollapse"
+                        data-toggle="collapse" href="#product/{{shoes.$id}}" ng-click="clearSearch(this)">
+                        {{shoes.name}}
+                        <hr>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div ng-view></div>
+    <footer class="container-fluid mt-4">
+        <div class="row container mx-auto mt-1 no-gutters">
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                <strong>Shoes Style</strong>
+                <ul class="list-unstyled hover-style-footer">
+                    <li>
+                        <a href="">About Us</a>
+                    </li>
+                    <li>
+                        <a href="">Contact</a>
+                    </li>
+                    <li>
+                        <a href="">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4 hidden-xs col-md-4 col-lg-3">
+                <strong>Shop</strong>
+                <ul class="list-unstyled hover-style-footer">
+                    <li>
+                        <a href="#page/menShoes">Men</a>
+                    </li>
+                    <li>
+                        <a href="#page/womenShoes">Women</a>
+                    </li>
+                    <li>
+                        <a href="#page/newArrivals">New Arrivals</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                <strong>Help</strong>
+                <ul class="list-unstyled hover-style-footer">
+                    <li>
+                        <a href="">FAQs</a>
+                    </li>
+                    <li>
+                        <a href="">Shipping</a>
+                    </li>
+                    <li>
+                        <a href="">Returns</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-3 text-xs-left">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-12 text-md-left text-lg-right">
+                        Marketing Channels
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-12 text-md-left text-lg-right">
+                        Created by Phan H.H. Nguyen
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap: jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Basic AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <!-- Extension AngularJs for routing: AngularJS Route module -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.js"></script>
+    <!-- Extension AngularJs for routing: AngularJS Cookies module -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-cookies.js"></script>
+    <!-- Extension AngularJs for material-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+
+    <!-- Extension AngularUI -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <!-- Firebase SDK -->
+    <script src="js/firebase-sdk.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script> -->
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+    <!-- My Custom AngularJS -->
+    <script src="js/myAngularJs.js"></script>
+    <script src="js/myValidators.js"></script>
+    <script src="js/myFilters.js"></script>
+    <!-- My Custom Js -->
+    <script src="js/myJs.js"></script>
+
+</body>
+
+</html>

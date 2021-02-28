@@ -1,0 +1,173 @@
+<!--Template: new arrivals product page -->
+<div class="text-left text-over-image-container">
+    <span class="text-over-image-left banner-heading">New Arrivals</span>
+    <img src="resources/images/newArrivalsBanner.png" class="img-responsive" alt="Banner Wallpaper">
+</div>
+<div id="body-container" class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#/">Home</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">New Arrivals</li>
+        </ol>
+    </nav>
+
+    <div id="productsContainer" class="clearfix">
+        <form class="form-inline float-sm-left">
+            <div class="form-group">
+                <label for="sortBy">Sort By:</label>
+                <select class="form-control ml-2" ng-model="selectedSort">
+                    <option ng-repeat="(key, value) in sortByAvailableObj" value="{{value}}">{{key}}</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="btn btn-outline-warning float-sm-right" data-toggle="collapse" data-target="#collapsibleFilter">
+            Filter
+            <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+
+    <div id="collapsibleFilter" class="collapse">
+        <div class="row py-2">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <div data-toggle="collapse" data-target="#brandFilter" class="btn btn-outline-warning dropdown-btn" role="button">
+                    <span>Brand</span>
+                </div>
+                <div id="brandFilter" class="collapse show">
+                    <div class="collapse-container">
+                        <div class="form-group row">
+                            <div class="col-sm-6" ng-repeat="brand in brandAvailable">
+                                <div class="form-check">
+                                    <input id="{{brand}}" type="checkbox" class="form-check-input clickable" ng-checked="exists(brand, brandsSelectedArray)"
+                                        ng-click="toggle(brand, brandsSelectedArray)" />
+                                    <label for="{{brand}}" class="form-check-label clickable text-capitalize">{{brand}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <div data-toggle="collapse" data-target="#priceFilter" class="btn btn-outline-warning dropdown-btn" role="button">Price</div>
+                <div id="priceFilter" class="collapse show">
+                    <div class="collapse-container">
+                        <div class="form-group row">
+                            <label for="minPrice" class="col-form-label col-sm-2">Min</label>
+                            <div class="col-sm-10">
+                                <input type="number" ng-model="minPrice" class="form-control" id="minPrice" placeholder="Min">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="maxPrice" class="col-sm-2 col-form-label">Max</label>
+                            <div class="col-sm-10">
+                                <input ng-model="maxPrice" type="number" class="form-control" id="maxPrice" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <div data-toggle="collapse" data-target="#sizeFilter" class="btn btn-outline-warning dropdown-btn" role="button">Size</div>
+                <div id="sizeFilter" class="collapse show form-group">
+                    <div class="collapse-container">
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-md-4 col-lg-3" ng-repeat="size in sizeAvailable">
+                                <div class="form-check">
+                                    <input id="{{size}}" type="checkbox" class="form-check-input clickable" ng-checked="exists(size, sizesSelectedArray)" ng-click="toggle(size, sizesSelectedArray)"
+                                    />
+                                    <label for="{{size}}" class="form-check-label clickable">{{size}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-2">
+                <div data-toggle="collapse" data-target="#colourFilter" class="btn btn-outline-warning dropdown-btn" role="button">Colour</div>
+                <div id="colourFilter" class="collapse show">
+                    <div class="collapse-container">
+                        <div class="form-group row">
+                            <div class="col-sm-6" ng-repeat="colour in colourAvailable">
+                                <div class="form-check">
+                                    <input id="{{colour}}" type="checkbox" class="form-check-input clickable" ng-checked="exists(colour, coloursSelectedArray)"
+                                        ng-click="toggle(colour, coloursSelectedArray)" />
+                                    <label for="{{colour}}" class="form-check-label clickable text-capitalize">{{colour}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-1 pl-md-1 px-md-0">
+                <button type="button" ng-click="clearFilters()" class="btn btn-outline-danger">Clear
+                    <strong>X</strong>
+                </button>
+            </div>
+        </div>
+
+        <div data-toggle="collapse" data-target="#collapsibleFilter2">
+            <span class="theme-yellow clickable">
+                <strong>+ Show more filter</strong>
+            </span>
+        </div>
+        <div id="collapsibleFilter2" class="collapse pl-2 pr-4">
+            <div class="row pt-2">
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <div data-toggle="collapse" data-target="#genderFilter" class="btn btn-outline-warning dropdown-btn" role="button">
+                        <span>Gender</span>
+                    </div>
+                    <div id="genderFilter" class="collapse show">
+                        <div class="collapse-container">
+                            <div class="form-group row">
+                                <div class="col-sm-6" ng-repeat="gender in genderArray">
+                                    <div class="form-check">
+                                        <input id="{{gender}}" type="checkbox" class="form-check-input clickable" ng-checked="exists(gender, gendersSelectedArray)"
+                                            ng-click="toggle(gender, gendersSelectedArray)" />
+                                        <label for="{{gender}}" class="form-check-label clickable text-capitalize">{{gender}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div name="productDisplayRow" class="row pt-4">
+        <a href="#product/{{elementsObj.$id}}" class="col-sm-6 col-md-4 col-lg-3 image-hover" ng-repeat="elementsObj in productDataFullArray | checkboxFilter: brandsSelectedArray:'brand':this
+                                                            | checkboxFilter:sizesSelectedArray:'size':this 
+                                                            | rangeFilter:minPrice:maxPrice:this                                                            
+                                                            | checkboxFilter:coloursSelectedArray:'colour':this
+                                                            | checkboxFilter:gendersSelectedArray:'gender':this
+                                                            | orderBy:selectedSort
+                                                            | offset:currentPageIndex*productsPerPage
+                                                            | limitTo:productsPerPage">
+            <img ng-src="{{elementsObj.img}}" class="img-responsive" alt="image">
+            <div class="row">
+                <span class="col-8">
+                    {{elementsObj.name}}
+                </span>
+                <span class="col-4 text-right">
+                    ${{elementsObj.price}}
+                </span>
+            </div>
+        </a>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul ng-show="shoesDisplayArray != null && shoesDisplayArray.length > 0" class="pagination justify-content-end pt-3">
+            <li class="page-item" data-ng-class="prevPageDisabled()" data-ng-click="prevPage()">
+                <button type="button" class="page-link" href="#">Previous</button>
+            </li>
+            <!-- Page Range Navigation, {} return boolean value based on Expression-->
+            <li data-ng-repeat="n in range()" class="page-item " data-ng-class="{active: n == currentPageIndex}" data-ng-click="setPage(n)">
+                <button type="button" class="page-link" href="#">{{n+1}}</button>
+            </li>
+            <li class="page-item" data-ng-class="nextPageDisabled()" data-ng-click="nextPage()">
+                <button type="button" class="page-link">Next</button>
+            </li>
+        </ul>
+    </nav>
+</div>

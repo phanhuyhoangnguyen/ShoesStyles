@@ -1,0 +1,142 @@
+<!--Template: view product page -->
+<div id="body-container" class="container">
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="home.html">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{productDisplay.name}}</li>
+        </ol>
+    </nav>
+
+    <div uib-alert ng-repeat="alert in alerts" class="alert-success alertBox" dismiss-on-timeout="2000" close="closeAlert($index)">{{alert.msg}}</div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <img ng-src="{{productDisplay.img}}" class="img-responsive" alt="Product Image">
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <p>
+                <span>
+                    <strong>{{productDisplay.name}}</strong>
+                </span>
+            </p>
+            <p>
+                <span>{{productDisplay.type}}</span>
+            </p>
+            <div class="row">
+                <p class="col-md-12 col-lg-6">
+                    <span>${{productDisplay.price}}</span>
+                </p>
+                <p ng-show="productDisplay.instock > 0" class="col-md-12 col-lg-6">
+                    Instock: {{productDisplay.instock}}
+                </p>
+                <p class="col-md-12 col-lg-6" ng-hide="productDisplay.instock > 0">This Item is currently Out Of Stock</p>
+            </div>
+            <p>
+                {{productDisplay.desc}}
+            </p>
+            <form ng-show="productDisplay.instock > 0" name="shoppingForm" ng-submit="addItem(productDisplay)" novalidate>
+                <div class="form-group">
+                    <label>Colour</label>
+                    <br>
+                    <div class="form-check form-check-inline" ng-repeat="(key,value) in productDisplay.colour track by $index">
+                        <label class="form-check-label text-capitalize">
+                            <input type="radio" data-ng-model="$parent.colourSelected" value="{{key}}" class="form-check-input" required/> {{key}}
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 d-lg-inline">
+                        <label class="sr-only">Size</label>
+                        <select class="form-control" ng-model="sizeSelected" required>
+                            <option value="">Select Your Size</option>
+                            <option ng-repeat="(key,value) in productDisplay.size" value="{{key}}">{{key}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 d-lg-inline">
+                        <label class="sr-only">Quanity</label>
+                        <input type="number" class="form-control" id="quanity" name="quanity" placeholder="Quanity" data-ng-model="quanitySelected"
+                            min="1" max="{{productDisplay.instock}}" required />
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-warning btn-block mt-3 text-white" data-ng-disabled="shoppingForm.$invalid" value="ADD TO CART"
+                />
+            </form>
+        </div>
+    </div>
+    <form ng-show="firebaseUser" name="reivewForm" class="pt-2">
+        <div class="form-group row">
+            <label for="reviewInput" class="col-form-label sr-only">Review</label>
+            <div class="col-md-12">
+                <input type="text" id="reviewInput" class="form-control" placeholder="Review This Product!" data-ng-model="reviewInput" required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-6" ng-init="ratingValue = 0">
+                        <span uib-rating ng-model="ratingValue" max="maxRating" state-on="'fas fa-star'" state-off="'far fa-star'" on-hover="hoveringOver(value)"
+                            on-leave="displayRatingValue()" titles="['one','two','three']" aria-labelledby="productRating" ratingvalid></span>
+
+                        <!-- without ratingValHover: label won't be updated/shown when ratingValue is not selected -->
+                        <span ng-show="ratingValHover != 0 || ratingValue !=0 "> {{ratingLabel}}
+                        </span>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button ng-click="addNewReview(reviewInput)" class="btn btn-outline-warning" data-ng-disabled="reivewForm.$invalid">Post Review!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p class="h4 pt-2">
+        <u>Product Reviews</u>
+    </p>
+    <div ng-show="reviews.length != 0" class="row pt-4" ng-repeat="review in reviews track by $index">
+        <div class="col-sm-3 col-md-3">
+            {{review.username}}
+        </div>
+        <div class="col-sm-9 col-md-9" ng-hide="isOnEdit($index)">
+            <div class="row justify-content-between px-3" ng-mouseenter="">
+                <div class="theme-yellow">
+                    <span uib-rating ng-model="review.rating" max="5" read-only="true" state-on="'fas fa-star'" state-off="'far fa-star'"></span>
+                </div>
+                <div>
+                    <small class="pr-2">{{review.reviewtime | date:'medium'}}</small>
+                    <span class="dropdown" ng-show="firebaseUser">
+                        <a href class="fas fa-ellipsis-v dropdown-toggle" id="dropdownMenuReviewButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" ng-click="toggled(review)"></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a href ng-repeat="action in actionsGranted" class="dropdown-item text-capitalize" ng-click="action.function(review, $parent.$index)">{{action.name}}</a>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="row mx-1">
+                {{review.userreview}}
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-9" ng-show="isOnEdit($index)">
+            <form name="editReviewForm" class="pt-2">
+                <div class="form-group text-right">
+                    <label for="reviewInput" class="col-form-label sr-only">Review Edit Box</label>
+                    <input type="text" id="reviewEdit" class="form-control mb-2" data-ng-model="requestedBox.reviewContent" required/>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <span uib-rating ng-model="requestedBox.reivewRating" max="maxRating" state-on="'fas fa-star'" state-off="'far fa-star'"
+                                titles="['one','two','three']" aria-labelledby="productRatingEdit" ratingvalid></span>
+                        </div>
+                        <div class="col-md-6">
+                            <button ng-click="updateEditedReview(review, $index)" class="btn btn-warning text-light" data-ng-disabled="editReviewForm.$invalid">Update</button>
+                            <button ng-click="cancelEditRequest()" class="btn btn-dark">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div ng-hide="reviews.length != 0">
+        There is no review for this product!
+    </div>
+</div>

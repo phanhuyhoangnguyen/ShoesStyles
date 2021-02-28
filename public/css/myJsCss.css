@@ -1,0 +1,81 @@
+.swtch-container {
+    position: absolute;
+    /* this must go with position: relative of the above container*/
+    width: 100%;
+    bottom: 0;
+    /* without this, these won't work */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.cir-btn_active {
+    height: 14px;
+    width: 14px;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: inherit;
+}
+
+.display-right {
+    right: 0%;
+    /*make the btn float right*/
+}
+
+.btn-floating {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+    font-size: 24px;
+    /* make the the sign bigger*/
+}
+
+.btn-floating:hover {
+    background: yellow;
+    color: white;
+}
+
+.display-left,
+.display-right {
+    position: absolute;
+    /* this make btn float without being at bottom*/
+    top: 50%;
+    /* this make the btn float in the center*/
+    transform: translate(0%, -50%);
+}
+
+.display-left {
+    left: 0%;
+}
+
+.display-right {
+    right: 0%;
+    /*make the btn float right*/
+}
+
+.swtch-container {
+    position: absolute;
+    /* this must go with position: relative of the above container*/
+    width: 100%;
+    bottom: 0;
+    /* without this, these won't work */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.img_slide_container {
+    position: relative;
+    /* ??? */
+}
+
+.img_slide_container img {
+    width: 100%;
+    height: auto;
+}
